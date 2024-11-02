@@ -58,9 +58,11 @@ def process_image(file_path):
         problems, solves = parsing_image(res_latex)
         for exp in problems:
             #st.latex(exp)
+            # = exp.replace("\\", "\\\\")
             st.markdown(exp)
         for exp in solves:
             #st.latex(exp)
+            #exp_escaped = exp.replace("\\", "\\\\")
             st.markdown(exp)
 
             
@@ -106,6 +108,7 @@ def render_quiz_form():
             problem_key = f"question_{i+1}"
             st.subheader(f"문제 {i+1}")
             #st.latex(quiz)
+            #quiz_escaped = quiz.replace("\\", "\\\\")
             st.markdown(quiz)
             answers[problem_key] = st.text_input("정답을 입력하세요", key=problem_key)
         
@@ -127,6 +130,7 @@ def render_quiz_form():
             st.write(f"문제 {i+1}: {result}")
             save_result(st.session_state.quiz[i], user_answer, correct_answer)
             #st.latex(st.session_state.sol[i])
+            #ans_escaped = st.session_state.sol[i].replace("\\", "\\\\")
             st.markdown(st.session_state.sol[i])
 
 # 메인 페이지 - 수학 문제 분석 섹션
