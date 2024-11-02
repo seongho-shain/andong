@@ -6,6 +6,7 @@
 **Andong** is a program designed to analyze, solve, and generate similar questions from photos of high school math problems. The program also provides statistical insights into the types of problems analyzed and displays the results of similar problem solutions.
 
 ### Key Features
+ - **Note**: It is recommended to take photos of only the math problems without any problem numbers, as there is a known issue where problem numbers from math workbooks may be incorrectly recognized as part of the problem.
 - **Problem Analysis**: Upload a photo of a math problem and receive a detailed analysis.
 - **Problem Solving**: Get solutions for uploaded problems.
 - **Similar Problem Generation**: Generate and solve problems similar to the input question.
