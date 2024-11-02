@@ -57,9 +57,9 @@ def process_image(file_path):
         st.subheader("LaTeX 변환 결과")
         results = parsing_image(res_latex)
         for exp in results:
-            st.latex(exp)
+            #st.latex(exp)
             st.markdown(exp)
-            st.text(exp)
+            
     
     with st.spinner("유형을 분석하고 있습니다..."):
         res_category = get_category(res_latex)
@@ -101,7 +101,7 @@ def render_quiz_form():
         for i, quiz in enumerate(st.session_state.quiz):
             problem_key = f"question_{i+1}"
             st.subheader(f"문제 {i+1}")
-            st.latex(quiz)
+            #st.latex(quiz)
             st.markdown(quiz)
             answers[problem_key] = st.text_input("정답을 입력하세요", key=problem_key)
         
@@ -110,14 +110,19 @@ def render_quiz_form():
     if submit_button:
         st.subheader("정답 결과")
         for i, ans in enumerate(st.session_state.ans):
-            user_answer = answers.get(f"question_{i+1}", "").strip()
-            correct_answer = ans.strip()  
+            user_answer = answers.get(f"question_{i+1}", "")
+    
+            # user_answer가 문자열인지 확인하고, 아니라면 문자열로 변환
+            if isinstance(user_answer, str):
+                user_answer = user_answer.strip()
+
+            correct_answer = ans  # correct_answer도 마찬가지로 문자열로 가정
             print(correct_answer)
             st.write(correct_answer)
             result = "정답입니다!" if compare_answer(user_answer, correct_answer) else f"틀렸습니다. 정답은 '{correct_answer}'입니다."
             st.write(f"문제 {i+1}: {result}")
             save_result(st.session_state.quiz[i], user_answer, correct_answer)
-            st.latex(st.session_state.sol[i])
+            #st.latex(st.session_state.sol[i])
             st.markdown(st.session_state.sol[i])
 
 # 메인 페이지 - 수학 문제 분석 섹션
