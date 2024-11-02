@@ -118,6 +118,7 @@ def render_quiz_form():
 
 # 메인 페이지 - 수학 문제 분석 섹션
 st.header("수학 문제 분석 및 유사 문제 출제")
+st.subheader("UPDATED : 2024-11-02")
 
 uploaded_file = st.file_uploader("수학 문제 이미지를 업로드하세요", type=["png", "jpg", "jpeg"])
 if uploaded_file and uploaded_file.name != st.session_state.uploaded_file_name:
