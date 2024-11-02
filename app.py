@@ -55,10 +55,14 @@ def process_image(file_path):
     with st.spinner("이미지를 분석하고 있습니다..."):
         res_latex = image_to_latex(file_id)
         st.subheader("LaTeX 변환 결과")
-        results = parsing_image(res_latex)
-        for exp in results:
+        problems, solves = parsing_image(res_latex)
+        for exp in problems:
             #st.latex(exp)
             st.markdown(exp)
+        for exp in solves:
+            #st.latex(exp)
+            st.markdown(exp)
+
             
     
     with st.spinner("유형을 분석하고 있습니다..."):

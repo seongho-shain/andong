@@ -4,6 +4,7 @@ imageToLatexID = "asst_0A8HcwYcHhSRFqPyNUnymkDR"
 latexToCategoryID = "asst_W6nsih5HPkl4iwQzk7i5MQZK"
 #categoryToNewProblems = "asst_cxV4mDJPvwhAwoZcaKTqqkNL"
 categoryToNewProblems = "asst_LhivSiYr47RqoX8E9nsfmfEs"
+
 ########################################
 
 
@@ -13,7 +14,6 @@ from fractions import Fraction
 import streamlit as st
 import json
 client = OpenAI(api_key=st.secrets["OpenAI_key"])
-
 
 def get_category(questionList):
     return ask_assistant(latexToCategoryID, questionList)
@@ -26,8 +26,9 @@ def make_similar_type(categoryList):
 
 def parsing_image(string):
     dic = json.loads(string)['problems']
-    lst = [item['problem_description'] for item in dic]
-    return lst
+    problem_lst = [item['problem_description'] for item in dic]
+    solve_lst = [item['solve'] for item in dic]
+    return problem_lst, solve_lst
 
 def parsing_category(string2):
     dic2 = json.loads(string2)['problems']
