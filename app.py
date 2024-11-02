@@ -58,6 +58,8 @@ def process_image(file_path):
         results = parsing_image(res_latex)
         for exp in results:
             st.latex(exp)
+            st.markdown(exp)
+            st.text(exp)
     
     with st.spinner("유형을 분석하고 있습니다..."):
         res_category = get_category(res_latex)
@@ -100,6 +102,7 @@ def render_quiz_form():
             problem_key = f"question_{i+1}"
             st.subheader(f"문제 {i+1}")
             st.latex(quiz)
+            st.markdown(quiz)
             answers[problem_key] = st.text_input("정답을 입력하세요", key=problem_key)
         
         submit_button = st.form_submit_button("정답 확인")
@@ -115,6 +118,7 @@ def render_quiz_form():
             st.write(f"문제 {i+1}: {result}")
             save_result(st.session_state.quiz[i], user_answer, correct_answer)
             st.latex(st.session_state.sol[i])
+            st.markdown(st.session_state.sol[i])
 
 # 메인 페이지 - 수학 문제 분석 섹션
 st.header("수학 문제 분석 및 유사 문제 출제")

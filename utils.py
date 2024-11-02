@@ -1,7 +1,9 @@
 #####CHANGE ASSISTANT ID HERE ########## 
-imageToLatexID = "asst_1Yb0JzkBzD3z2AntEyU0J1bi"
+#imageToLatexID = "asst_1Yb0JzkBzD3z2AntEyU0J1bi"
+imageToLatexID = "asst_0A8HcwYcHhSRFqPyNUnymkDR"
 latexToCategoryID = "asst_W6nsih5HPkl4iwQzk7i5MQZK"
-categoryToNewProblems = "asst_cxV4mDJPvwhAwoZcaKTqqkNL"
+#categoryToNewProblems = "asst_cxV4mDJPvwhAwoZcaKTqqkNL"
+categoryToNewProblems = "asst_LhivSiYr47RqoX8E9nsfmfEs"
 ########################################
 
 
