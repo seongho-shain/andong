@@ -19,6 +19,7 @@
 This program utilizes the **OpenAI API** to perform its core functions.
 
 ### Assistants
+**For exact details, please refer to the files in the assistantInfo folder.**
 Three distinct assistants were developed and used in the creation of this program:
 
 1. **imageToLatex**
@@ -47,7 +48,7 @@ Follow these steps to run the program on your local machine:
 
 1. **Clone the repository**:
    ```bash
-   $ git clone <repository-url>
+   $ git clone https://github.com/seongho-shain/andong.git
    $ cd andong
    ```
 
