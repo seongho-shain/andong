@@ -1,3 +1,7 @@
+#Make .streamlit/secrets.toml 
+#pip install -r requirements.txt
+#PLEASE READ README.md for more informations
+
 import streamlit as st
 import json
 import os

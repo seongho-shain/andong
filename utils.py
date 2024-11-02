@@ -1,17 +1,26 @@
+#####CHANGE ASSISTANT ID HERE ########## 
+imageToLatexID = "asst_1Yb0JzkBzD3z2AntEyU0J1bi"
+latexToCategoryID = "asst_W6nsih5HPkl4iwQzk7i5MQZK"
+categoryToNewProblems = "asst_cxV4mDJPvwhAwoZcaKTqqkNL"
+########################################
+
+
+
 from openai import OpenAI
 from fractions import Fraction
 import streamlit as st
 import json
 client = OpenAI(api_key=st.secrets["OpenAI_key"])
 
+
 def get_category(questionList):
-    return ask_assistant("asst_W6nsih5HPkl4iwQzk7i5MQZK", questionList)
+    return ask_assistant(latexToCategoryID, questionList)
 
 def image_to_latex(image_id):
-    return ask_assistant_with_image("asst_1Yb0JzkBzD3z2AntEyU0J1bi", image_id)
+    return ask_assistant_with_image(imageToLatexID, image_id)
 
 def make_similar_type(categoryList):
-    return ask_assistant("asst_cxV4mDJPvwhAwoZcaKTqqkNL", categoryList)
+    return ask_assistant(categoryToNewProblems, categoryList)
 
 def parsing_image(string):
     dic = json.loads(string)['problems']
