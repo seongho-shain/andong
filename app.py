@@ -1,3 +1,7 @@
+#Make .streamlit/secrets.toml 
+#pip install -r requirements.txt
+#PLEASE READ README.md for more informations
+
 import streamlit as st
 import json
 import os
@@ -32,7 +36,10 @@ def save_uploaded_file(uploaded_file):
     save_dir = "uploaded_files"
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
-    file_path = os.path.join(save_dir, uploaded_file.name)
+     # 파일 확장자를 소문자로 변환
+    file_name, file_extension = os.path.splitext(uploaded_file.name)
+    file_extension = file_extension.lower()  # 확장자를 소문자로 변경
+    file_path = os.path.join(save_dir, f"{file_name}{file_extension}")
     with open(file_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
     st.image(file_path)
@@ -48,9 +55,17 @@ def process_image(file_path):
     with st.spinner("이미지를 분석하고 있습니다..."):
         res_latex = image_to_latex(file_id)
         st.subheader("LaTeX 변환 결과")
-        results = parsing_image(res_latex)
-        for exp in results:
-            st.latex(exp)
+        problems, solves = parsing_image(res_latex)
+        for exp in problems:
+            #st.latex(exp)
+            # = exp.replace("\\", "\\\\")
+            st.markdown(exp)
+        for exp in solves:
+            #st.latex(exp)
+            #exp_escaped = exp.replace("\\", "\\\\")
+            st.markdown(exp)
+
+            
     
     with st.spinner("유형을 분석하고 있습니다..."):
         res_category = get_category(res_latex)
@@ -92,7 +107,9 @@ def render_quiz_form():
         for i, quiz in enumerate(st.session_state.quiz):
             problem_key = f"question_{i+1}"
             st.subheader(f"문제 {i+1}")
-            st.latex(quiz)
+            #st.latex(quiz)
+            #quiz_escaped = quiz.replace("\\", "\\\\")
+            st.markdown(quiz)
             answers[problem_key] = st.text_input("정답을 입력하세요", key=problem_key)
         
         submit_button = st.form_submit_button("정답 확인")
@@ -100,17 +117,25 @@ def render_quiz_form():
     if submit_button:
         st.subheader("정답 결과")
         for i, ans in enumerate(st.session_state.ans):
-            user_answer = answers.get(f"question_{i+1}", "").strip()
-            correct_answer = ans.strip()  
+            user_answer = answers.get(f"question_{i+1}", "")
+    
+            # user_answer가 문자열인지 확인하고, 아니라면 문자열로 변환
+            if isinstance(user_answer, str):
+                user_answer = user_answer.strip()
+
+            correct_answer = ans  # correct_answer도 마찬가지로 문자열로 가정
             print(correct_answer)
             st.write(correct_answer)
             result = "정답입니다!" if compare_answer(user_answer, correct_answer) else f"틀렸습니다. 정답은 '{correct_answer}'입니다."
             st.write(f"문제 {i+1}: {result}")
             save_result(st.session_state.quiz[i], user_answer, correct_answer)
-            st.latex(st.session_state.sol[i])
+            #st.latex(st.session_state.sol[i])
+            #ans_escaped = st.session_state.sol[i].replace("\\", "\\\\")
+            st.markdown(st.session_state.sol[i])
 
 # 메인 페이지 - 수학 문제 분석 섹션
 st.header("수학 문제 분석 및 유사 문제 출제")
+st.subheader("UPDATED : 2024-11-02")
 
 uploaded_file = st.file_uploader("수학 문제 이미지를 업로드하세요", type=["png", "jpg", "jpeg"])
 if uploaded_file and uploaded_file.name != st.session_state.uploaded_file_name:
