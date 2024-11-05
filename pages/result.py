@@ -7,7 +7,7 @@ if "results" in st.session_state:
     if st.session_state.results:
         for i, result in enumerate(st.session_state.results):
             st.subheader(f"문제 {i + 1}")
-            st.latex(result["problem"])
+            st.markdown(result["problem"])
             st.write(f"사용자 답안: {result['user_answer']}")
             st.write(f"정답: {result['correct_answer']}")
             if result["is_correct"]:
