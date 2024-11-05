@@ -55,18 +55,20 @@ def process_image(file_path):
     with st.spinner("이미지를 분석하고 있습니다..."):
         res_latex = image_to_latex(file_id)
         st.subheader("LaTeX 변환 결과")
-        problems, solves = parsing_image(res_latex)
-        for exp in problems:
-            #st.latex(exp)
-            # = exp.replace("\\", "\\\\")
-            st.markdown(exp)
-        for exp in solves:
-            #st.latex(exp)
-            #exp_escaped = exp.replace("\\", "\\\\")
-            st.markdown(exp)
+        problems = parsing_image(res_latex)
+        for p in problems:
+            steps, final_answer = getAnswer(p)
+            for s in steps:
+                st.write(s["explanation"])
+                output = s["output"]
+                if "$" in output or r"\(" in output or r"\[" in output:
+                    st.markdown(output)  # LaTeX 표기법이 포함된 경우, Markdown으로 처리
+                else:
+                    st.latex(output)     # LaTeX 수식만 포함된 경우, st.latex() 사용    # LaTeX 수식인 경우, st.latex() 사용
+        
+        st.latex(final_answer)
 
-            
-    
+                  
     with st.spinner("유형을 분석하고 있습니다..."):
         res_category = get_category(res_latex)
         problem_types = json.loads(res_category)['problems']
@@ -135,7 +137,7 @@ def render_quiz_form():
 
 # 메인 페이지 - 수학 문제 분석 섹션
 st.header("수학 문제 분석 및 유사 문제 출제")
-st.subheader("UPDATED : 2024-11-02")
+st.subheader("UPDATED : 2024-11-05")
 
 uploaded_file = st.file_uploader("수학 문제 이미지를 업로드하세요", type=["png", "jpg", "jpeg"])
 if uploaded_file and uploaded_file.name != st.session_state.uploaded_file_name:

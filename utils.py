@@ -1,14 +1,14 @@
 #####CHANGE ASSISTANT ID HERE ########## 
 #imageToLatexID = "asst_1Yb0JzkBzD3z2AntEyU0J1bi"
-imageToLatexID = "asst_0A8HcwYcHhSRFqPyNUnymkDR"
-latexToCategoryID = "asst_W6nsih5HPkl4iwQzk7i5MQZK"
+imageToLatexID = "asst_AQrRxzczNc5z8HRDbgwVFd6y"
+latexToCategoryID = "asst_4z1JQ4V4A18PSMgDTm4WQt1h"
 #categoryToNewProblems = "asst_cxV4mDJPvwhAwoZcaKTqqkNL"
-categoryToNewProblems = "asst_LhivSiYr47RqoX8E9nsfmfEs"
+categoryToNewProblems = "asst_g7iEgmneb09Mtf7ETWN0CsuV"
 
 ########################################
 
 
-
+from pydantic import BaseModel
 from openai import OpenAI
 from fractions import Fraction
 import streamlit as st
@@ -27,8 +27,7 @@ def make_similar_type(categoryList):
 def parsing_image(string):
     dic = json.loads(string)['problems']
     problem_lst = [item['problem_description'] for item in dic]
-    solve_lst = [item['solve'] for item in dic]
-    return problem_lst, solve_lst
+    return problem_lst
 
 def parsing_category(string2):
     dic2 = json.loads(string2)['problems']
@@ -104,3 +103,27 @@ def ask_assistant_with_image(assis_id ,file_id):
         
     else:
         return run.status
+
+
+class Step(BaseModel):
+    explanation: str
+    output: str
+
+class MathReasoning(BaseModel):
+    steps: list[Step]
+    final_answer: str
+
+def getAnswer(problem: str):
+    completion = client.beta.chat.completions.parse(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "당신은 수학 튜터입니다. step by step으로 고등학교 수학문제 풀이를 주세요. 한글로 답하세요.  $로 감싸진 latex문이 포함된 markdown문으로 답하세요. "},
+            {"role": "user", "content": problem}
+        ],
+        response_format=MathReasoning,
+    )
+
+    math_reasoning = completion.choices[0].message.parsed
+    steps = [{"explanation": step.explanation, "output": step.output} for step in math_reasoning.steps]
+    final_answer = math_reasoning.final_answer
+    return steps, final_answer

@@ -3,3 +3,4 @@ matplotlib
 openai
 pandas
 numpy
+pydantic
