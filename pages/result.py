@@ -22,6 +22,6 @@ if "results" in st.session_state:
     if st.button("풀이 결과 초기화"):
         st.session_state.results = []
         st.success("풀이 결과가 초기화되었습니다.")
-        st.experimental_rerun() 
+        st.rerun() 
 else:
     st.write("풀이 결과가 없습니다. 문제를 풀어보세요.")

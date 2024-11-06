@@ -19,6 +19,6 @@ if "problem_types" in st.session_state:
     if st.button("유형 데이터 초기화"):
         st.session_state.problem_types = {}
         st.success("유형 데이터가 초기화되었습니다.")
-        st.experimental_rerun() 
+        st.rerun() 
 else:
     st.write("유형 데이터가 없습니다. 문제를 업로드하고 분석하세요.")
